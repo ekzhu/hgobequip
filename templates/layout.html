@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<head>
+<title>杭高天文社器材管理</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}" type="text/javascript" charset="utf-8"></script>
+{% block head %}
+{% endblock %}
+</head>
+<body>
+{% for message in get_flashed_messages() %}
+<div class="alert alert-success">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	{{ message }}
+</div>
+{% endfor %}
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div id="sidebar" class="span2">
+			<h2><a href="{{ url_for('show_entries')}}">杭高天文社</a></h2>
+			<ul class="nav nav-list">
+				{% if not session.logged_in %}
+				<li><a href="{{ url_for('login') }}">Log in</a></li>
+				{% else %}
+				<li class="nav-header">器材管理</li>
+				<li><a href="{{ url_for('show_entries') }}"><i class="icon-list"></i> 显示所有器材</a></li>
+				<li><a href="{{ url_for('add_entry') }}"><i class="icon-plus"></i> 添加新器材</a></li>
+				<li><a href="{{ url_for('show_groups') }}"><i class="icon-th-list"></i> 显示分组</a></li>
+				<li><a href="{{ url_for('manage_groups') }}"><i class="icon-wrench"></i> 管理分组</a></li>
+				<li><a href="#"><i class="icon-calendar"></i> 使用纪录</a></li>
+				{% block side_extra %} {% endblock %}
+				<li class="nav-header">用户</li>
+				<li><a href="{{ url_for('logout') }}"><i class="icon-user"></i> Log out</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<div id="mainbody" class="span10">
+			{% block body %}{% endblock %}
+			<div id="footer" class="span12">Made by <a href="http://40stgeorge.net">Eric Zhu</a></div>
+		</div>
+	</div>
+</div>
+<!-- <div id="footer" class="row">
+	<div class="span12">by <a href="http://40stgeorge.net">Eric Zhu</a></div>
+</div> -->
+</body>

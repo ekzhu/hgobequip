@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<div class="row">
+	
+	<div class="span6">
+		<h3>器材信息</h3>
+		<table class="table table-striped table-bordered">
+			<tr><th width=120>ID</th><td>{{ entry.equip_id }}</td></tr>
+			<tr><th>分组</th><td>{{ entry.group_name }}</td></tr>
+			<tr><th>型号/名称</th><td>{{ entry.model }}</td></tr>
+			<tr><th>类别</th><td>{{ entry.category }}</td></tr>
+			<tr><th>别名</th><td>{{ entry.nick }}</td></tr>
+			<tr><th>生产商</th><td>{{ entry.manufacturer }}</td></tr>
+			<tr><th>箱号</th><td>{{ entry.case_id }}</td></tr>
+		</table>
+		<h3>使用记录</h3>
+		<table class="table table-striped table-bordered">
+			<tr><th width=120>状况</th><td>{{ entry.status }}</td></tr>
+			<tr><th>负责人／借出人</th>{{ entry.borrower }}<td></td></tr>
+			<tr><th>借出时间</th><td>{{ entry.check_out_date }}</td></tr>
+		</table>
+		<h3>备注</h3>
+		<p>{{ entry.note }}</p>
+		<a class="btn btn-info" href="{{ url_for('update_entry', equip_id=entry.equip_id) }}">修改此器材记录</a>
+	</div>
+     <div class="span6">
+		<h3>器材照片</h3>
+		<a href="{{ entry.photo }}" class="thumbnail">
+			<img src="{{ entry.photo }}" alt="image">
+		</a>
+     	<h3>历史记录</h3>
+		<table class="table table-striped table-bordered">
+			<thead><th>日期</th><th>人员</th><th>记录</th></thead>
+			<tbody>
+				<tr><td></td><td></td><td></td></tr>
+			</tbody>
+		</table>
+     </div>
+</div>
+{% endif %}
+{% endblock %}

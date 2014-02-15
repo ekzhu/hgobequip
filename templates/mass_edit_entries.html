@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<form id="mass_edit" class="form-horizontal" action="{{ url_for('mass_edit') }}" method="post">
+<table id="mass_edit_table" class="table table-striped">
+<thead>	<tr><th></th><th>ID</th><th>分组</th><th>型号/名称</th><th>器材类别</th><th>生产商</th><th>箱号</th><th>状态</th><th>负责人</th><th>借出日期</th></tr>
+</thead>
+<tbody>
+{% for entry in entries %}
+<tr>
+<td><input class="select_edit" id="{{ entry.equip_id }}" type="checkbox" name="mass_edit" value="{{ entry.equip_id }}" checked="checked"></td>
+<td>{{ entry.equip_id }}</td>
+<td>{{ entry.group_name }}</td>
+<td>{{ entry.model }}</td>
+<td>{{ entry.category }}</td>
+<td>{{ entry.manufacturer }}</td>
+<td>{{ entry.case_id }}</td>
+<td>{{ entry.status }}</td>
+<td>{{ entry.borrower }}</td>
+<td>{{ entry.check_out_date }}</td>
+{% endfor %}
+</tbody>
+</table>
+
+
+<fieldset>
+	<legend>批量修改 - <small>不需要修改的位置请留空</small></legend>
+	<div class="control-group">
+		<label class="control-label" for="group_name">分组：</label>
+		<div class="controls">
+	        <select id="group_name" name="group_name">
+				<option></option>
+				{% for name in group_names %}
+				<option>{{ name }}</option>
+				{% endfor %}
+			</select>
+			<!-- <span class="help-inline">必填，修改此项将转移所该组有器材到新分组</span> -->
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="category">器材类别：</label>
+		<div class="controls">
+	        <input type=text size=30 id="category" name="category" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="manufacturer">生产商：</label>
+		<div class="controls">
+			<input type=text size=30 id="manufacturer" name="manufacturer" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="case_id">箱号：</label>
+		<div class="controls">
+	        <input type=text size=30 id="case_id" name="case_id" />		
+		</div>
+    </div>
+	<div class="control-group">
+		<label class="control-label" for="status">状况：</label>
+		<div class="controls">
+			<input type=text size=30 id="status" name="status" placeholder="e.g. 借出，天荒坪，天文台" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="borrower">负责人／借出人：</label>
+		<div class="controls">
+			<input type=text size=30 id="borrower" name="borrower" value="" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="check_out_date">借出时间：</label>
+		<div class="controls">
+			<input type="text" id="check_out_date" name="check_out_date" placeholder="e.g. 2012-05-15" />
+		</div>
+	</div>
+	<div class="form-actions">
+    	<button type="submit" class="btn btn-primary">提交改动</button>
+		<a href="{{ url_for('show_entries') }}" class="btn">取消</a>
+	</div>
+</fieldset>
+</form>
+
+{% else %}
+<div class="alert alert-info">
+<h4 class="alert-heading">该组没有任何器材</h4>
+</div>
+{% endif %}
+{% endblock %}

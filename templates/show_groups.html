@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<div id="group-view">
+{% for group in groups %}
+	{% if group %}
+<h2>{{ group[0].group_name }} <small> - <a href="{{ url_for('manage_group', group_name=group[0].group_name) }}">批量修改</a></small></h2>
+<table id="table-{{ group[0].group_name }}" class="table table-condensed table-striped">
+<thead>	<tr><th>ID</th><th>型号/名称</th><th>箱号</th><th>状态</th><th>负责人</th><th>借出日期</th><th></th></tr>
+</thead>
+<tbody>
+		{% for entry in group %}
+<tr>
+<td width=60>{{ entry.equip_id }}</td>
+<td width=250>{{ entry.model }}</td>
+<td>{{ entry.case_id }}</td>
+<td>{{ entry.status }}</td>
+<td>{{ entry.borrower }}</td>
+<td>{{ entry.check_out_date }}</td>
+<td>
+<a href="{{ url_for('detail_entry', equip_id=entry.equip_id) }}">详情</a> | 
+<a href="{{ url_for('update_entry', equip_id=entry.equip_id) }}">修改</a></td>
+</tr>
+		{% endfor %}
+</tbody>
+</table>
+	{% endif %}
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

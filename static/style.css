@@ -1,0 +1,18 @@
+#sidebar h2 {
+	margin: 10px 0px 10px 12px;
+}
+#mainbody {
+	margin: 10px auto;
+}
+#footer {
+	text-align: right;
+	padding-right: 50px;
+}
+/*#error {
+	color:red;
+	font-size:10px;
+	display:none;
+}*/
+.needsfilled {
+	
+}

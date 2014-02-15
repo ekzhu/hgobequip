@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block head %}
+<script src="{{ url_for('static', filename='entry_validation.js') }}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block body %}
+  {% if session.logged_in %}
+    <form id="change_entry" class="form-horizontal" action="{{ url_for('add_entry') }}" method="post" enctype="multipart/form-data">
+	<fieldset>
+        <div class="control-group">
+			<label class="control-label" for="equip_id">器材编号（ID）：</label>
+			<div class="controls">
+		        <input type=text size=30 id="equip_id" name="equip_id" placeholder="e.g. L-1234" />
+				<span class="help-inline">必填</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="group_name">分组：</label>
+			<div class="controls">
+				<select id="group_name" name="group_name">
+					{% for name in group_names %}
+					<option>{{ name }}</option>
+					{% endfor %}
+				</select>
+				<span class="help-inline">必填</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="category">器材类别：</label>
+			<div class="controls">
+		        <input type=text size=30 id="category" name="category" />
+				<!-- <span class="help-inline">必填</span> -->
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="case_id">箱号：</label>
+			<div class="controls">
+		        <input type=text size=30 id="case_id" name="case_id" />		
+			</div>
+        </div>
+		<div class="control-group">
+			<label class="control-label" for="model">型号／名称：</label>
+			<div class="controls">
+				<input type=text size=30 id="model" name="model" />
+				<!-- <span class="help-inline">必填</span> -->
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="manufacturer">生产商：</label>
+			<div class="controls">
+				<input type=text size=30 id="manufacturer" name="manufacturer" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="nick">别名：</label>
+			<div class="controls">
+				<input type=text size=30 id="nick" name="nick" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="status">状况：</label>
+			<div class="controls">
+				<input type=text size=30 id="status" name="status" placeholder="e.g. 借出，天荒坪，天文台" />
+				<!-- <span class="help-inline">必填</span> -->
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="borrower">负责人／借出人：</label>
+			<div class="controls">
+				<input type=text size=30 id="borrower" name="borrower" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="check_out_date">借出时间：</label>
+			<div class="controls">
+				<input type="text" id="check_out_date" name="check_out_date" placeholder="e.g. 2012-05-15" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="photo">器材照片：</label>
+			<div class="controls">
+				<input type="file" id="photo" name="photo">
+				<span class="help-inline">请使用字母和数字作为照片文件名，上传限制：小于1M</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="note">备注：</label>
+			<div class="controls">
+				<textarea class="input-xlarge" id="note" rows="5" name="note"></textarea>
+			</div>
+		</div>
+		<div class="form-actions">
+        	<button type="submit" class="btn btn-primary">添加</button>
+			<a href="{{ url_for('show_entries') }}" class="btn">取消</a>
+		</div>
+	</fieldset>
+    </form>
+  {% endif %}
+{% endblock %}

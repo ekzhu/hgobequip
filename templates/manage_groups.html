@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block head %}
+<script src="{{ url_for('static', filename='manage_groups_validation.js') }}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block body %}
+{% if session.logged_in %}
+<div id="manage-group">
+	<form id="manage_group_form" class="well form-inline" action="{{ url_for('add_group') }}" method="post">
+		<label for="new_group_name">添加分组：</label>
+		<input type=text size=30 id="new_group_name" name="new_group_name" />
+	    <button type="submit" class="btn">添加</button>
+	</form>
+	<form id="manage_group_form" class="well form-inline" action="{{ url_for('delete_group') }}" method="post">
+		<label for="group_to_delete">删除分组：</label>
+		<select id="group_to_delete" name="group_to_delete">
+			{% for name in group_names %}
+			<option>{{ name }}</option>
+			{% endfor %}
+		</select>
+	    <button type="submit" class="btn">删除</button>
+		<label>注意：删除分组将同时删除该分组下的所有器材</label>
+	</form>
+</div>
+{% endif %}
+{% endblock %}

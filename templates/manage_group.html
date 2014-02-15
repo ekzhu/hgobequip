@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block head %}
+<script src="{{ url_for('static', filename='manage_group_validation.js') }}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block body %}
+{% if session.logged_in %}
+{% if group %}
+
+<h2>{{ group[0].group_name }}</h2>
+<table id="table-{{ group[0].group_name }}" class="table table-striped">
+<thead>	<tr><th>ID</th><th>型号/名称</th><th>箱号</th><th>状态</th><th>负责人</th><th>借出日期</th><th></th></tr>
+</thead>
+<tbody>
+		{% for entry in group %}
+<tr>
+<td width=60>{{ entry.equip_id }}</td>
+<td width=250>{{ entry.model }}</td>
+<td>{{ entry.case_id }}</td>
+<td>{{ entry.status }}</td>
+<td>{{ entry.borrower }}</td>
+<td>{{ entry.check_out_date }}</td>
+<td>
+	<a href="{{ url_for('detail_entry', equip_id=entry.equip_id) }}">详情</a> | 
+	<a href="{{ url_for('update_entry', equip_id=entry.equip_id) }}">修改</a></td>
+</tr>
+		{% endfor %}
+</tbody>
+</table>
+
+
+
+<form id="group_edit" class="form-horizontal" action="{{ url_for('manage_group', group_name=group[0].group_name) }}" method="post">
+<fieldset>
+	<legend>批量修改 - <small>不需要修改的位置请留空</small></legend>
+	<div class="control-group">
+		<label class="control-label" for="group_name">分组：</label>
+		<div class="controls">
+	        <select id="group_name" name="group_name">
+				{% for name in group_names %}
+				{% if name==group[0].group_name %}
+				<option selected="selected">{{ name }}</option>
+				{% else %}
+				<option>{{ name }}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+			<span class="help-inline">必填，修改此项将转移所该组有器材到新分组</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="case_id">箱号：</label>
+		<div class="controls">
+	        <input type=text size=30 id="case_id" name="case_id" />		
+		</div>
+    </div>
+	<div class="control-group">
+		<label class="control-label" for="status">状况：</label>
+		<div class="controls">
+			<input type=text size=30 id="status" name="status" placeholder="e.g. 借出，天荒坪，天文台" />
+			<!-- <span class="help-inline">必填</span> -->
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="borrower">负责人／借出人：</label>
+		<div class="controls">
+			<input type=text size=30 id="borrower" name="borrower" value="" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="check_out_date">借出时间：</label>
+		<div class="controls">
+			<input type="text" id="check_out_date" name="check_out_date" placeholder="e.g. 2012-05-15" />
+		</div>
+	</div>
+	<div class="form-actions">
+    	<button type="submit" class="btn btn-primary">提交改动</button>
+		<a href="{{ url_for('show_groups') }}" class="btn">取消</a>
+	</div>
+</fieldset>
+</form>
+
+{% else %}
+<div class="alert alert-info">
+<h4 class="alert-heading">该组没有任何器材</h4>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

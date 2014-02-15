@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" charset="utf-8">
+function toggleChecked(status) {
+	$(".select_edit").each( function() {
+		$(this).attr("checked",status);
+	})
+}
+</script>
+{% endblock %}
+{% block body %}
+{% if session.logged_in %}
+<form action="{{ url_for('mass_edit_entries') }}" method="post">
+<table class="table table-condensed table-striped">
+<thead><tr><th><input type="checkbox" id="select_all" onClick="toggleChecked(this.checked)"></th><th>ID</th><th>分组</th><th>型号/名称</th><th>器材类别</th><th>箱号</th><th>状态</th><th>负责人</th><th>借出日期</th><th><button type="submit" class="btn btn-mini"><i class="icon-pencil"></i> 编辑选中</butto></th></tr>
+</thead>
+<tbody>
+{% for entry in entries %}
+<tr>
+<td><input class="select_edit" id="{{ entry.equip_id }}" type="checkbox" name="mass_edit" value="{{ entry.equip_id }}"></td>
+<td>{{ entry.equip_id }}</td>
+<td>{{ entry.group_name }}</td>
+<td>{{ entry.model }}</td>
+<td>{{ entry.category }}</td>
+<td>{{ entry.case_id }}</td>
+<td>{{ entry.status }}</td>
+<td>{{ entry.borrower }}</td>
+<td>{{ entry.check_out_date }}</td>
+<td>
+	<a href="{{ url_for('detail_entry', equip_id=entry.equip_id) }}">详情</a> | 
+	<a href="{{ url_for('update_entry', equip_id=entry.equip_id) }}">修改</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</form>
+{% else %}
+<p>请先 Log in</p>
+{% endif %}
+
+
+{% endblock %}
